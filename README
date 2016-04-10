@@ -1,0 +1,4 @@
+This project compares weather reading from two sensors, the DHT22 and the bmp180. 
+The DHT22 senses temperature and humidity while the BMP180 senses temperature, pressure, altitude, and sea level pressure. 
+
+This application uses Flask, uwsgi and nginx 
