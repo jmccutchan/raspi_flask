@@ -1,12 +1,12 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html lang="">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <link rel="stylesheet" href=" {{ url_for ('static', filename='css/bootstrap.min.css') }}">
 
     </head>
     <body>
@@ -16,19 +16,50 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <Environmental Readings from the DHT22 sensor and BMP180 sensor
-        <h2><b>BMP180 Readings</b></h2><br>
+        <div class="jumbotron">
+          <div class="container">
+               <h1>Environmental Readings from the DHT22 sensor and BMP180 sensor</h1>
+          
+
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-md-4">
+        <h2><b>BMP180 Readings</b></h2>
         <p> temp = {{ btemp }} F </p>
         <p> pressure = {{ bpressure }} </p>
         <p> altitude = {{ balt }} </p>
         <p> sea level pressure = {{ slp }}</p>
+        </div>
+        <div class="col-md-4">
         <h2><b> DHT22 readings</b></h2>
         <p> temperature = {{ dt }}</p>
         <p> humidity = {{ dh }}</p>
-        <h3> {{  switch    }}                               </h3>
-
-        <script src="https://code.jquery.com/jquery-{{JQUERY_VERSION}}.min.js"></script>
+        </div>
+  <!-- Optional: clear the XS cols if their content doesn't match in height -->
+  <div class="clearfix visible-xs-block"></div>
+        <div class="col-md-4">
+         <h3> {{ 'On' if switch else 'Off'    }}                               </h3>
+        <p>
+          <button type='button' id='led_on'>LED ON</button>
+          <button type='button' id='led_off'>LED OFF</button>
+        </p>
+        </div>
+        </div>
+     
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-{{JQUERY_VERSION}}.min.js"><\/script>')</script>
+        <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+        <script>
+          $(document).ready(function()  {
+            $('#led_on').click(function() {
+               $.post('/led/1');
+              });
+            $('#led_off').click(function() {
+                $.post('/led/0');
 
+             });
+          });
+        </script>
     </body>
 </html>

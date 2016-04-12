@@ -1,14 +1,16 @@
 from flask import Flask, render_template 
 import Adafruit_DHT as dht
 import Adafruit_BMP.BMP085 as BMP085
-from switch import Led
+from switch import *
 
 app = Flask(__name__)
 
+light = Led()
+
 @app.route("/")
 def main():
-    led = Led()
-    switch = led.read_switch()
+   
+    switch = light.read_switch()
     title = "DHT temperature and humdidity readings"
     paragraph = ["getting ambient temperature and humidity readings from the DHT22"]
 
@@ -28,6 +30,16 @@ def main():
    #return 'Altitude = {0:0.2f} m'.format(sensor.read_altitude())
    #return 'Sealevel Pressure = {0:0.2f} Pa'.format(sensor.read_sealevel_pressure())                      
 
+@app.route("/led/<int:led_state>", methods=['POST'])
+def led(led_state):
+    if led_state == 0:
+        light.set_led(False)
+    elif led_state == 1:
+        light.set_led(True)
+    else:
+        return ('Unknown LED state', 400)
+    return ('', 204)
+        
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True, port=8121)
 
